@@ -16,6 +16,8 @@ class objPos
 
         objPos();
         ~objPos();
+        objPos(const objPos &d);
+        objPos& operator=(const objPos &d);
         objPos(int xPos, int yPos, char sym);
         
         // Respect the rule of six / minimum four
