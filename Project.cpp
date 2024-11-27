@@ -8,6 +8,7 @@ using namespace std;
 #define DELAY_CONST 100000
 
 GameMechs *ptr_gameMechs;
+Food *ptr_food;
 bool exitFlag = 0;
 
 void Initialize(void);
@@ -42,8 +43,8 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    GameMechs Game1 = GameMechs();
-    ptr_gameMechs = &Game1;
+    ptr_gameMechs = new GameMechs();
+    ptr_food = new Food();
 }
 
 void GetInput(void)
@@ -59,7 +60,7 @@ void RunLogic(void)
 {
     char input = ptr_gameMechs->getInput();
     ptr_gameMechs->clearInput();
-    
+
 
 }
 
@@ -79,4 +80,9 @@ void CleanUp(void)
     MacUILib_clearScreen();    
 
     MacUILib_uninit();
+
+    delete ptr_gameMechs;
+    delete ptr_food;
+
+
 }
