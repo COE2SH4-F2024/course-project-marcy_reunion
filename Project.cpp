@@ -2,6 +2,7 @@
 #include "MacUILib.h"
 #include "objPos.h"
 #include "gameMechs.h"
+#include "Player.h"
 
 using namespace std;
 
@@ -9,7 +10,20 @@ using namespace std;
 
 GameMechs *ptr_gameMechs;
 Food *ptr_food;
-bool exitFlag = 0;
+bool exitFlag = false;
+
+string gameBoard[10]={
+    {"$$$$$$$$$$$$$$$$$$$$"},  
+    {"$                  $"},   
+    {"$                  $"},
+    {"$                  $"},
+    {"$                  $"},
+    {"$                  $"},
+    {"$                  $"},
+    {"$                  $"},
+    {"$                  $"},
+    {"$$$$$$$$$$$$$$$$$$$$"}    
+};
 
 void Initialize(void);
 void GetInput(void);
@@ -25,7 +39,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag = false)  
+    while(exitFlag ==false)  
     {
         GetInput();
         RunLogic();
@@ -67,6 +81,12 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
+    for (int i =0; i<10;i++){
+        for (int j=0; j<20; j++){
+            MacUILib_printf("%c", gameBoard[i][j]);
+    }
+    MacUILib_printf("\n");
+  }
 }
 
 void LoopDelay(void)
