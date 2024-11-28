@@ -86,9 +86,12 @@ void DrawScreen(void)
     for (int i =0; i<10;i++){
         for (int j=0; j<20; j++){
             MacUILib_printf("%c", gameBoard[i][j]);
+        }
+        MacUILib_printf("\n");
     }
-    MacUILib_printf("\n");
-  }
+
+    
+
 }
 
 void LoopDelay(void)
