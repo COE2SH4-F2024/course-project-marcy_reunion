@@ -19,8 +19,8 @@ GameMechs::GameMechs()
 GameMechs::GameMechs(int boardX, int boardY)
 {
     input = 0;
-    exitFlag = 0;
-    loseFlag = 0;
+    exitFlag = false;
+    loseFlag = false;
     score = 0;
 
     boardSizeX = boardX;
@@ -72,12 +72,12 @@ int GameMechs::getBoardSizeY() const
 
 void GameMechs::setExitTrue()
 {
-    exitFlag = 1;
+    exitFlag = true;
 }
 
 void GameMechs::setLoseFlag()
 {
-    loseFlag = 1;
+    loseFlag = true;
 }
 
 void GameMechs::setInput(char this_input)
@@ -92,36 +92,4 @@ void GameMechs::clearInput()
 
 // More methods should be added here
 
-Food::Food()
-{   
-    foodPos = objPos();
-}
-
-Food::~Food()
-{
-    
-}
-
-void Food::generateFood(objPos blockOff, GameMechs board)
-{
-    srand(time(NULL));
-    int xPos, yPos;
-
-    do
-    {
-        xPos = rand()%(board.getBoardSizeX()-2)+1;
-        yPos = rand()%(board.getBoardSizeY()-2)+1;
-    }
-    while(xPos == blockOff.pos->x && yPos == blockOff.pos->y);
-    
-    //foodPos = objPos(xPos, yPos, '@');
-    foodPos.pos->x = xPos;
-    foodPos.pos->y = yPos;
-
-}
-
-objPos Food::getFoodPos() const
-{
-    foodPos.pos;
-}
 

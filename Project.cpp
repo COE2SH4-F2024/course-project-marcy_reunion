@@ -2,7 +2,9 @@
 #include "MacUILib.h"
 #include "objPos.h"
 #include "gameMechs.h"
+
 #include "Player.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -39,7 +41,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag ==false)  
+    while(exitFlag = false)  
     {
         GetInput();
         RunLogic();
