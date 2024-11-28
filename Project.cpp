@@ -2,6 +2,7 @@
 #include "MacUILib.h"
 #include "objPos.h"
 #include "gameMechs.h"
+#include "Food.h"
 
 using namespace std;
 
@@ -25,7 +26,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag = false)  
+    while(ptr_gameMechs->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
