@@ -1,5 +1,7 @@
 #include "objPosArrayList.h"
 
+using namespace std;
+
 // Paste your Tested implementation here.
 
 objPosArrayList::objPosArrayList()
@@ -7,7 +9,6 @@ objPosArrayList::objPosArrayList()
     aList = new objPos[ARRAY_MAX_CAP];
     listSize = 0;
     arrayCapacity = ARRAY_MAX_CAP;
-
 }
 
 objPosArrayList::~objPosArrayList()
