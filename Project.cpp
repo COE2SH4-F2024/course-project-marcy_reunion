@@ -119,7 +119,7 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
              if (printed!=1){
                 for (int foodIndex =0; foodIndex < snakeFood->bucketSize(); foodIndex++){
 
-                    objPos foodGeneration = snakeFood->getFromBucket(foodIndex);
+                    objPos foodGeneration = snakeFood->grabFoodItem(foodIndex);
 
                     if(foodGeneration.pos->x == j && foodGeneration.pos->y == i)
                     {   printed =1; 

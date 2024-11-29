@@ -3,6 +3,31 @@
 #include <time.h>
 using namespace std;
 
+
+int Food::bucketSize(){
+
+    return foodBucket->getSize(); 
+}
+
+objPos Food::grabFoodItem(int index){
+    return foodBucket->getElement(index); 
+}
+
+Food::~Food()    //Destructor
+{  
+    delete foodPos.pos;
+}
+
+objPos Food::getFoodPos() const
+{
+    return foodPos;
+}
+
+Food::Food()     //Constructor
+{
+   foodBucket = new objPosArrayList(5); 
+}
+
 void Food::generateFood(objPosArrayList* blockOff)
 {
     int numItemsGen =0; 
@@ -12,10 +37,6 @@ void Food::generateFood(objPosArrayList* blockOff)
     srand(time(NULL));
 
     while (numItemsGen!=5){
-  
-
-
-    
         do
         {
             unique = 1;
@@ -49,37 +70,21 @@ void Food::generateFood(objPosArrayList* blockOff)
             {
                 unique = 0;
             }
-            if (existingInBucket = inBucketCheck()){
+            if (existingInBucket = foodInBucket()){
                 unique=0; 
             } 
-            
-
-          
         }
         while(unique == 0);
-
-        
-
 
         foodBucket->insertElement(numItemsGen,foodPos);
         numItemsGen++; 
     
     }
-
-
   
     return; 
 }
 
-objPos Food::getFoodPos() const
-{
-    return foodPos;
-}
 
-Food::Food()     //Constructor
-{
-   foodBucket = new objPosArrayList(5); 
-}
 
 Food::Food(Food const &f)     //Copy Constructor
 {   
@@ -103,21 +108,15 @@ Food& Food::operator=(Food const &f)     //Copy Assignment Operator
 }
 
 
-bool Food::inBucketCheck(){
+bool Food::foodInBucket(){
 
     for (int i = 0; i<foodBucket->getSize(); i++ ){
         objPos currentFood = foodBucket->getElement(i).getObjPos();
         if ((currentFood.pos->x  == foodPos.pos->x && currentFood.pos->y  == foodPos.pos->y) || currentFood.getSymbol() == foodPos.getSymbol()){
             return true; 
         }
-
-       
     }
-
-
-            return false; 
-        
-
+            return false;
 }
 
 bool Food::snakeBodyCheck(objPosArrayList* blockOff, int x, int y){
@@ -128,20 +127,6 @@ bool Food::snakeBodyCheck(objPosArrayList* blockOff, int x, int y){
             return isCordTaken; 
          }
     }
-
     return isCordTaken;
 }
 
-int Food::bucketSize(){
-
-    return foodBucket->getSize(); 
-}
-
-objPos Food::getFromBucket(int index){
-    return foodBucket->getElement(index); 
-}
-
-Food::~Food()    //Destructor
-{  
-    delete foodPos.pos;
-}

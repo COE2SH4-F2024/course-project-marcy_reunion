@@ -17,13 +17,13 @@ class Food
     objPos getFoodPos() const;
     // Getter method for obtaining a copy of the current position of the food.
 
-    bool inBucketCheck(); 
+    bool foodInBucket(); 
     Food();     //Constructor
     Food(Food const &f);     //Copy Constructor
     Food& operator=(Food const &f);     //Copy Assignment Operator
     ~Food();    //Destructor
     int bucketSize(); 
-    objPos getFromBucket(int index); 
+    objPos grabFoodItem(int index); 
     bool snakeBodyCheck(objPosArrayList* blockOff, int x, int y); 
 
 };

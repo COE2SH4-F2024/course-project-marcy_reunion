@@ -147,7 +147,7 @@ Player::Dir Player::getFSMState(){
 
 int Player::checkFoodConsumption(Food *snakeFood){
     for (int i =0; i<snakeFood->bucketSize(); i++){
-        objPos currentFood = snakeFood->getFromBucket(i);
+        objPos currentFood = snakeFood->grabFoodItem(i);
         if (playerPosList->getHeadElement().pos->x == currentFood.pos->x  && playerPosList->getHeadElement().pos->y == currentFood.pos->y){
             if (currentFood.symbol == 'S')
             {
