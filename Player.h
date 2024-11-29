@@ -4,6 +4,10 @@
 #include "GameMechs.h"
 #include "objPos.h"
 #include "objPosArrayList.h"
+#include "Food.h"
+
+class GameMechs;        //removing this stops the code from compiling **IMPORTANT
+class Food;             //removing this stops the code from compiling **IMPORTANT
 
 class Player
 {
@@ -20,15 +24,19 @@ class Player
         Player(GameMechs* thisGMRef);
         ~Player();
 
-        objPos getPlayerPos() const; // Upgrade this in iteration 3.       
+        objPosArrayList* getPlayerPos() const; // Upgrade this in iteration 3.       
         void updatePlayerDir();
-        void movePlayer();
+        int movePlayer(Food *snakeFood);
+        Dir getFSMState(); 
+        int checkFoodConsumption(Food* snakeFood);
+        void increasePlayerLength(int num); 
+        bool checkSelfCollision(); 
 
         // More methods to be added here
 
     private:
-        objPos playerPos; // Upgrade this in iteration 3.       
-        enum Dir myDir;
+        objPosArrayList* playerPosList; // Upgrade this in iteration 3.       
+        Dir myDir;
 
         // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;

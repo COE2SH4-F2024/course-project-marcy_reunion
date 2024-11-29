@@ -1,30 +1,19 @@
 #include "GameMechs.h"
-#include "MacUILib.h"
-
-#include <stdlib.h>
-#include <time.h>
 
 GameMechs::GameMechs()
 {
-    input = 0;
-    exitFlag = 0;
-    loseFlag = 0;
-    score = 0;
-
-    boardSizeX = 30;
-    boardSizeY = 15;
-
+ score =0;
+ exitFlag = false; 
+ loseFlag= false; 
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
-    input = 0;
-    exitFlag = false;
-    loseFlag = false;
-    score = 0;
-
-    boardSizeX = boardX;
-    boardSizeY = boardY;
+    boardSizeX = boardX; 
+    boardSizeY = boardY; 
+    score =0;
+    exitFlag = false; 
+    loseFlag=false; 
 }
 
 // do you need a destructor?
@@ -40,56 +29,70 @@ bool GameMechs::getExitFlagStatus() const
 
 bool GameMechs::getLoseFlagStatus() const
 {
-    return loseFlag;
+
+    return loseFlag; 
 }
     
 
 char GameMechs::getInput() const
 {
-    return input;
+
+    return input; 
 }
 
 int GameMechs::getScore() const
 {
-    return score;
+
+    return score; 
 }
 
-void GameMechs::incrementScore()
+int GameMechs::incrementScore(int increment)
 {
-    score++;
+    score += increment;
+    return score;
 }
 
 int GameMechs::getBoardSizeX() const
 {
+    //Starting from 0
     return boardSizeX;
 }
 
 int GameMechs::getBoardSizeY() const
 {
-    return boardSizeY;
+    //Starting from 0
+    return boardSizeY; 
 }
 
 
 void GameMechs::setExitTrue()
 {
-    exitFlag = true;
+    exitFlag = true; 
+
 }
 
 void GameMechs::setLoseFlag()
 {
-    loseFlag = true;
+    loseFlag = true; 
 }
 
 void GameMechs::setInput(char this_input)
 {
     input = this_input;
+    prevInput = this_input; 
 }
 
 void GameMechs::clearInput()
 {
-    input = 0;
+
+    input = 0; 
 }
 
+char GameMechs::getPrevInput(){
+    return prevInput; 
+}
+
+void GameMechs::setScore(int val){
+    score=val; 
+}
 // More methods should be added here
-
-

@@ -6,13 +6,19 @@
 
 #include "objPos.h"
 #include "objPosArrayList.h"
+#include "Player.h"
+#include "Food.h"
 
 using namespace std;
+
+class Player;       //removing this stops the code from compiling **IMPORTANT
+class Food;         //removing this stops the code from compiling **IMPORTANT
 
 class GameMechs
 {
     private:
         char input;
+        char prevInput; 
         bool exitFlag;
         bool loseFlag;
         int score;
@@ -20,7 +26,7 @@ class GameMechs
         int boardSizeX;
         int boardSizeY;
 
-        //objPos food;
+        objPos food;
 
     public:
         GameMechs();
@@ -35,15 +41,17 @@ class GameMechs
         char getInput() const;
         void setInput(char this_input);
         void clearInput();
+        char getPrevInput(); 
+    
 
         int getBoardSizeX() const;
         int getBoardSizeY() const;
         
         int getScore() const;
-        void incrementScore();
+        int incrementScore(int);
+        void setScore(int val); 
         
         // More methods should be added here
 };
-
 
 #endif
