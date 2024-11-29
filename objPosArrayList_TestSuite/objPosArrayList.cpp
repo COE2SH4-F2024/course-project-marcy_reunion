@@ -1,7 +1,5 @@
 #include "objPosArrayList.h"
 
-using namespace std;
-
 // Paste your Tested implementation here.
 
 objPosArrayList::objPosArrayList()
@@ -9,6 +7,10 @@ objPosArrayList::objPosArrayList()
     aList = new objPos[ARRAY_MAX_CAP];
     listSize = 0;
     arrayCapacity = ARRAY_MAX_CAP;
+    for(int i = 0; i < ARRAY_MAX_CAP-1; i++){
+        aList[i] = objPos();
+    }
+
 }
 
 objPosArrayList::~objPosArrayList()
@@ -72,14 +74,9 @@ objPos objPosArrayList::getTailElement() const
 
 objPos objPosArrayList::getElement(int index) const
 {
-    if(index<0){
-        
-        index = 0;
-    }
-    else if(index>=listSize) 
-    {
-        index = listSize - 1;
-    }
+    if(index<0) index = 0;
+    else if(index>=listSize) index = listSize - 1;
+    
     return aList[index];
 }
 // Paste your Tested implementation here.
