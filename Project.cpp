@@ -12,7 +12,7 @@ using namespace std;
 
 GameMechs *ptr_gameMechs;
 Food *ptr_food;
-bool exitFlag = false;
+
 
 string gameBoard[10]={
     {"$$$$$$$$$$$$$$$$$$$$"},  
@@ -41,7 +41,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(ptr_gameMechs->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -77,7 +77,7 @@ void RunLogic(void)
     char input = ptr_gameMechs->getInput();
     ptr_gameMechs->clearInput();
 
-
+    if (input == 27) ptr_gameMechs->setExitTrue();
 }
 
 void DrawScreen(void)
