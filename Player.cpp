@@ -52,7 +52,7 @@ void Player::updatePlayerDir()
         // If true, set the direction to RIGHT
         else if ((input == 'd' || input == 'D') && myDir != LEFT) {
             myDir = RIGHT;
-            }
+        }
 
 
 

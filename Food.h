@@ -7,24 +7,24 @@
 class Food
 {
     private: 
-    objPos foodPos;
-    objPosArrayList  * foodBucket; 
+        objPos foodPos;
+        objPosArrayList  * foodBucket; 
+
     public:
-    void generateFood(objPosArrayList* blockOff);
-//     The random food generation algorithm should be placed here. (copy from PPA3)
-//  blockOff should contain the player position, on which the new food should NOT be generated.
 
-    objPos getFoodPos() const;
-    // Getter method for obtaining a copy of the current position of the food.
+        Food();     //Constructor
+        Food(Food const &f);     //Copy Constructor
+        Food& operator=(Food const &f);     //Copy Assignment Operator
+        ~Food();    //Destructor
 
-    bool foodInBucket(); 
-    Food();     //Constructor
-    Food(Food const &f);     //Copy Constructor
-    Food& operator=(Food const &f);     //Copy Assignment Operator
-    ~Food();    //Destructor
-    int bucketSize(); 
-    objPos grabFoodItem(int index); 
-    bool snakeBodyCheck(objPosArrayList* blockOff, int x, int y); 
+        void generateFood(objPosArrayList* blockOff);
+
+        objPos getFoodPos() const;
+        objPos grabFoodItem(int index);
+
+        int bucketSize();
+        bool foodInBucket(); 
+        bool snakeBodyCheck(objPosArrayList* blockOff, int x, int y); 
 
 };
 

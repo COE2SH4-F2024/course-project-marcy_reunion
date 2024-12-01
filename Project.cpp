@@ -70,6 +70,7 @@ void Initialize(void)
     snakeFood->generateFood(snakeHead->getPlayerPos());
 
     exitFlag = false;
+
 }
 
 void GetInput(void)
