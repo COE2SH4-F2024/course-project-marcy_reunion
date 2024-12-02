@@ -31,16 +31,22 @@ Food& Food::operator=(Food const &f)//Copy Assignment Operator Method
         foodPos.pos->y = f.foodPos.pos->y;
         foodPos.symbol = f.foodPos.symbol;
     }
-    
+
     return *this;
 }
 
 void Food::generateFood(objPosArrayList* blockOff) //Food Generation Algorithm
 {
-    int i, RandNum_x, RandNum_y;
+    int i, RandNum_x, RandNum_y, foods = 5;
     srand(time(NULL));
-    
-    for(i=0; i<5; i++)
+
+    //If the snake is taking up more than 195 squares, there won't be 5 places to generate food--adjusting accordingly
+    if(blockOff->getSize()> 195){ 
+        foods = 200 - blockOff->getSize(); 
+    }
+
+    //Typically, foods=5, generate 5 food
+    for(i=0; i<foods; i++)
     {
         //Assigning random position to the foodPos object
         RandNum_x = (rand()%18)+1;

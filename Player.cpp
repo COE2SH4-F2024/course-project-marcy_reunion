@@ -104,7 +104,10 @@ int Player::movePlayer(Food *snakeFood)
        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
        
     }
-
+    if(victoryCheck())
+    {
+        return 1;
+    }
     // allows snake to keep its size
     playerPosList->insertHead(updateHeadPos); 
     playerPosList->removeTail();
@@ -154,10 +157,13 @@ void Player::increasePlayerLength(int num){ // increases the length of the playe
         }
 }
 
-void Player::victoryCheck() // checking if the lenght of the snake is the size of the array
+bool Player::victoryCheck() // checking if the lenght of the snake is the size of the array
 {
     if(playerPosList->getSize() >= ARRAY_MAX_CAP)
     {
         mainGameMechsRef->setWinFlag(); // set win condition
+        return true;
     }
+
+    return false;
 }

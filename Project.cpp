@@ -140,12 +140,12 @@ void CleanUp(void)
     
     //Different game ending messages depending on the situation
     if(mechInst->getLoseFlagStatus() == true)
-        MacUILib_printf ("Unluckly, you lost.. Try again!"); 
+        MacUILib_printf ("Sorry, you lost.. Try again!"); 
     else if(mechInst->getWinFlagStatus() == true)
         MacUILib_printf("Congratulations, you win!!");
     else
         MacUILib_printf("Come back again!");
-
+    MacUILib_printf("\nFinal Score: %d", mechInst->getScore());
     //Clearing the heap
     delete snakeFood;
     delete mechInst;

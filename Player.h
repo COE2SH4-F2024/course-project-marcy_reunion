@@ -31,7 +31,7 @@ class Player
         int checkFoodConsumption(Food* snakeFood);
         void increasePlayerLength(int num); 
         bool checkSelfCollision();
-        void victoryCheck();
+        bool victoryCheck();
 
         // More methods to be added here
 
