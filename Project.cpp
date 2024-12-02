@@ -42,12 +42,7 @@ int wipe_food;
 
 int main(void)
 {
-
     Initialize();
-
-   
-
-
     while(gameMechInstance->getExitFlagStatus() == false && gameMechInstance->getLoseFlagStatus() == false)  
     {
         GetInput();
@@ -84,7 +79,6 @@ void GetInput(void)
 
 int RunLogic(void)
 {
-
     if (gameMechInstance->getInput()== 27){
         gameMechInstance->setExitTrue();
     }
@@ -98,12 +92,7 @@ int RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-
     objPosArrayList* myCharacter = snakeHead->getPlayerPos();
-
-    
-      
-
 
 for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
         for (int j=0; j<gameMechInstance->getBoardSizeX(); j++){
@@ -111,16 +100,15 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
 
             for (int  k = 0; k<myCharacter->getSize(); k++){
             objPos snake = myCharacter->getElement(k);
-            //if the character position is met in the gameboard, print character
             if (snake.pos->x== j && snake.pos->y == i){
                 MacUILib_printf("%c", snake.getSymbol());
                 printed = 1; 
             }
             }
              if (printed!=1){
-                for (int foodIndex =0; foodIndex < snakeFood->bucketSize(); foodIndex++){
+                for (int foodLoc =0; foodLoc < snakeFood->bucketSize(); foodLoc++){
 
-                    objPos foodGeneration = snakeFood->grabFoodItem(foodIndex);
+                    objPos foodGeneration = snakeFood->grabFoodItem(foodLoc);
 
                     if(foodGeneration.pos->x == j && foodGeneration.pos->y == i)
                     {   printed =1; 
@@ -133,24 +121,12 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
             if (printed!=1){
                 MacUILib_printf("%c", gameBoard[i][j]);
                  
-            }
-            
-            
-            
-        
-        
+            } 
     }
     MacUILib_printf("\n");
-
-
-    
-
   }
 
 MacUILib_printf("\nEating S = +3 score\nEating s = +3 snake length\n");
-MacUILib_printf("\n///Debugging Messages///\n");
-MacUILib_printf("Key Pressed: %c\n", gameMechInstance->getPrevInput());
-MacUILib_printf("Current state of FSM: %d\n",snakeHead->getFSMState());
 MacUILib_printf("Score: %d", gameMechInstance->getScore());
     
 }
@@ -163,10 +139,6 @@ void LoopDelay(void)
 
 void CleanUp(void)
 {
-
- 
-
-
     MacUILib_clearScreen();    
     
     
@@ -177,12 +149,8 @@ void CleanUp(void)
     else  {
         MacUILib_printf("See You Next Time!"); 
     }
-
-
     delete gameMechInstance;
     delete snakeHead;
     delete snakeFood;
-
-    
 }
  
