@@ -44,10 +44,10 @@ void Initialize(void)
     MacUILib_clearScreen();
     
     //Initializing the object classes
-    mechInst = new GameMechs(20,10);
+    mechInst = new GameMechs();
     snakeHead = new Player(mechInst);
     snakeFood = new Food();
-    snakeFood->generateFood(snakeHead->getPlayerPos());
+    snakeFood->generateFood(snakeHead->getPlayerPos(), mechInst->getBoardSizeX(), mechInst->getBoardSizeY());
 
 }
 
@@ -80,17 +80,22 @@ void DrawScreen(void)
     MacUILib_clearScreen();
 
     //Gameboard structure to print
-    string gameBoard[10]={
-        {"$$$$$$$$$$$$$$$$$$$$"},  
-        {"$                  $"},   
-        {"$                  $"},
-        {"$                  $"},
-        {"$                  $"},
-        {"$                  $"},
-        {"$                  $"},
-        {"$                  $"},
-        {"$                  $"},
-        {"$$$$$$$$$$$$$$$$$$$$"}  
+    string gameBoard[15]={
+        {"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"},  
+        {"$                            $"},
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"}, 
+        {"$                            $"},
+        {"$                            $"},
+        {"$                            $"},
+        {"$                            $"},
+        {"$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$"}  
     };
 
     objPosArrayList* theCharac = snakeHead->getPlayerPos(); //Setting a pointer to the position of the snake head
@@ -107,29 +112,30 @@ void DrawScreen(void)
                     break;
                 }
             }
-            
-            if (printed == 0){
-                //Iterating through the food bucket to see if said location holds food
-                for (int foodLoc = 0; foodLoc < snakeFood->bucketSize(); foodLoc++){
-                    objPos foodProp = snakeFood->grabFoodItem(foodLoc);
+            if(printed==1) continue; //If coordinate printed--continue to next iteration
 
-                    if(foodProp.pos->x == j && foodProp.pos->y == i){   
-                        MacUILib_printf("%c", foodProp.getSymbol());
-                        printed = 1; 
-                        break; 
-                    }
+            //Iterating through the food bucket to see if said location holds food
+            for (int foodLoc = 0; foodLoc < snakeFood->bucketSize(); foodLoc++){
+                objPos foodProp = snakeFood->grabFoodItem(foodLoc);
+
+                if(foodProp.pos->x == j && foodProp.pos->y == i){   
+                    MacUILib_printf("%c", foodProp.getSymbol());
+                    printed = 1; 
+                    break; 
                 }
             }
+            if(printed==1) continue; //If coordinate printed--continue to next iteration
+
             //if it doesn't contain food or a snake body--print the gameboard
-            if (printed == 0){
-                MacUILib_printf("%c", gameBoard[i][j]);
-            } 
+            MacUILib_printf("%c", gameBoard[i][j]);
+             
         }
         MacUILib_printf("\n");
     }
     //Printing the score and special character legend
-    MacUILib_printf("Special Characters:\nEating S = +3 score\nEating s = +3 snake length\n");
-    MacUILib_printf("\nScore: %d", mechInst->getScore());   
+    MacUILib_printf("Score: %d\n", mechInst->getScore());  
+    MacUILib_printf("Special Characters:\nEating S = +3 score\nEating s = +3 snake length");
+     
 }
 
 void LoopDelay(void)

@@ -17,7 +17,7 @@ class Food
         Food& operator=(Food const &f);     //Copy Assignment Operator
         ~Food();    //Destructor
 
-        void generateFood(objPosArrayList* blockOff);
+        void generateFood(objPosArrayList* blockOff, int x, int y);
 
         objPos getFoodPos() const;
         objPos grabFoodItem(int index);

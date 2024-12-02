@@ -5,19 +5,19 @@
 Player::Player(GameMechs* thisGMRef)
 {
     playerPosList = new objPosArrayList(); 
-    mainGameMechsRef = thisGMRef;
+    gameMechRef = thisGMRef;
     myDir = STOP;
     playerPosList->insertHead(objPos(11,5,'*'));
     
 }
 
-Player::Dir Player::getFSMState(){ // return the current dir of snake
-    return myDir; 
-}
-
 Player::~Player() // delete player position array list located on the heap
 {
     delete playerPosList; 
+}
+
+Player::Dir Player::getFSMState(){ // return the current dir of snake
+    return myDir; 
 }
 
 objPosArrayList* Player::getPlayerPos() const // return player position array list
@@ -27,20 +27,20 @@ objPosArrayList* Player::getPlayerPos() const // return player position array li
 
 void Player::updatePlayerDir() // change the direction of the snake according to the input from user
 {
-       char input = mainGameMechsRef->getInput();
-       // checking the input entered, and making sure the constraint is met, and then changing dir according
-        if ((input == 'w' || input == 'W') && myDir != DOWN) {
-            myDir = UP;
-        }
-        else if ((input == 's' || input == 'S') && myDir != UP) {
-            myDir = DOWN;
-        }
-        else if ((input == 'a' || input == 'A') && myDir != RIGHT) {
-            myDir = LEFT;
-        }
-        else if ((input == 'd' || input == 'D') && myDir != LEFT) {
-            myDir = RIGHT;
-        }
+    char input = gameMechRef->getInput();
+    // checking the input entered, and making sure the constraint is met, and then changing dir according
+    if ((input == 'w' || input == 'W') && myDir != DOWN) {
+        myDir = UP;
+    }
+    else if ((input == 's' || input == 'S') && myDir != UP) {
+        myDir = DOWN;
+    }
+    else if ((input == 'a' || input == 'A') && myDir != RIGHT) {
+        myDir = LEFT;
+    }
+    else if ((input == 'd' || input == 'D') && myDir != LEFT) {
+        myDir = RIGHT;
+    }
 }
 
 int Player::movePlayer(Food *snakeFood)
@@ -50,7 +50,7 @@ int Player::movePlayer(Food *snakeFood)
     switch (myDir) { // change player position based on curr direction 
     case DOWN:
         updateHeadPos.pos->y++;
-        if (updateHeadPos.pos->y == mainGameMechsRef->getBoardSizeY()- 1 ){ // wrap around logic for top
+        if (updateHeadPos.pos->y == gameMechRef->getBoardSizeY()- 1 ){ // wrap around logic for top
             updateHeadPos.pos->y = 1;
         }
         break;
@@ -58,13 +58,13 @@ int Player::movePlayer(Food *snakeFood)
     case UP:
         updateHeadPos.pos->y--;
         if (updateHeadPos.pos->y == 0) { // wrap around logic for bottom
-            updateHeadPos.pos->y = mainGameMechsRef->getBoardSizeY()-2;
+            updateHeadPos.pos->y = gameMechRef->getBoardSizeY()-2;
         }
         break;
 
     case RIGHT:
         updateHeadPos.pos->x++;
-        if (updateHeadPos.pos->x == mainGameMechsRef->getBoardSizeX()-1) {// wrap around logic for right side
+        if (updateHeadPos.pos->x == gameMechRef->getBoardSizeX()-1) {// wrap around logic for right side
             updateHeadPos.pos->x = 1; 
         }
         break;
@@ -72,7 +72,7 @@ int Player::movePlayer(Food *snakeFood)
     case LEFT:
         updateHeadPos.pos->x--;
         if (updateHeadPos.pos->x== 0) { // wrap around logic for left side
-            updateHeadPos.pos->x = mainGameMechsRef->getBoardSizeX()-2;
+            updateHeadPos.pos->x = gameMechRef->getBoardSizeX()-2;
         }
         break;
     case STOP:
@@ -80,28 +80,26 @@ int Player::movePlayer(Food *snakeFood)
     }
 
     if (checkSelfCollision()){ // check to see if the snake has collided with itself
-        mainGameMechsRef->setLoseFlag();
+        gameMechRef->setLoseFlag();
         return 1; 
     }
     // SPECIAL FOOD LOGIC 
-    if(checkFoodConsumption(snakeFood) == 2) // if snake eats "S" food increase length by 3
-    {
-        increasePlayerLength(3);
-        snakeFood->generateFood(playerPosList);
-        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
-    }
-    if(checkFoodConsumption(snakeFood) == 1) // if snake eats "s" food increase length by 3
+    if(checkFoodConsumption(snakeFood) == 1) // if snake eats "S" food increase length by 1, and score by 3
     {
         increasePlayerLength(1);
-        snakeFood->generateFood(playerPosList);
-        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(3));
-
+        snakeFood->generateFood(playerPosList, gameMechRef->getBoardSizeX(), gameMechRef->getBoardSizeY());
+        gameMechRef->setScore(gameMechRef->incrementScore(3));
     }
-    if((checkFoodConsumption(snakeFood) == -1)) // if snake eats "@" food increase length by 3
+    else if(checkFoodConsumption(snakeFood) == 2) // if snake eats "s" food increase length by 3
+    {
+        increasePlayerLength(3);
+        snakeFood->generateFood(playerPosList, gameMechRef->getBoardSizeX(), gameMechRef->getBoardSizeY());
+    }
+    else if(checkFoodConsumption(snakeFood) == 3) // if snake eats "@" food increase length and score by 1
     {
        increasePlayerLength(1);
-       snakeFood->generateFood(playerPosList);
-       mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
+       snakeFood->generateFood(playerPosList, gameMechRef->getBoardSizeX(), gameMechRef->getBoardSizeY());
+       gameMechRef->setScore(gameMechRef->incrementScore(1));
        
     }
     if(victoryCheck())
@@ -129,7 +127,7 @@ int Player::checkFoodConsumption(Food *snakeFood){ // checker of snake eating fo
                 return 2;
             }
             else{
-                return -1; 
+                return 3; 
             }
         }
     }
@@ -155,13 +153,14 @@ void Player::increasePlayerLength(int num){ // increases the length of the playe
         {
             playerPosList->insertTail(objPos(newTail.pos->x,newTail.pos->y,'*')); 
         }
+    return;
 }
 
 bool Player::victoryCheck() // checking if the lenght of the snake is the size of the array
 {
     if(playerPosList->getSize() >= ARRAY_MAX_CAP)
     {
-        mainGameMechsRef->setWinFlag(); // set win condition
+        gameMechRef->setWinFlag(); // set win condition
         return true;
     }
 

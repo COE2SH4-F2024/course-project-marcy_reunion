@@ -35,7 +35,7 @@ Food& Food::operator=(Food const &f)//Copy Assignment Operator Method
     return *this;
 }
 
-void Food::generateFood(objPosArrayList* blockOff) //Food Generation Algorithm
+void Food::generateFood(objPosArrayList* blockOff, int x, int y) //Food Generation Algorithm
 {
     int i, RandNum_x, RandNum_y, foods = 5;
     srand(time(NULL));
@@ -49,8 +49,8 @@ void Food::generateFood(objPosArrayList* blockOff) //Food Generation Algorithm
     for(i=0; i<foods; i++)
     {
         //Assigning random position to the foodPos object
-        RandNum_x = (rand()%18)+1;
-        RandNum_y = (rand()%8)+1;
+        RandNum_x = (rand()%(x-2))+1;
+        RandNum_y = (rand()%(y-2))+1;
 
         foodPos.pos->x = RandNum_x;
         foodPos.pos->y = RandNum_y;

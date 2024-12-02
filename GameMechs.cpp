@@ -2,17 +2,23 @@
 
 GameMechs::GameMechs()
 { // constructor of gamemechs
- score =0;
+ score = 0;
+
  exitFlag = false; 
  loseFlag= false;
  winFlag = false;
+
+ boardSizeX = 30;
+ boardSizeY = 15;
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
 { // constructor, the board sizes are specified
     boardSizeX = boardX; 
     boardSizeY = boardY; 
-    score =0;
+
+    score = 0;
+
     exitFlag = false; 
     loseFlag = false;
     winFlag = false;

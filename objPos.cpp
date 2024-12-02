@@ -26,26 +26,26 @@ objPos::~objPos(){
 }
 
 //Copy Constructor
-objPos::objPos(const objPos &a){
+objPos::objPos(const objPos &c){
     pos = new Pos;
-    pos->x = a.pos->x;
-    pos->y = a.pos->y;
-    symbol = a.symbol;
+    pos->x = c.pos->x;
+    pos->y = c.pos->y;
+    symbol = c.symbol;
 
 
 }
 
 //Copy Assignmnet Constructor
-objPos& objPos::operator=(const objPos &a){
+objPos& objPos::operator=(const objPos &c){
 
-   if(this != &a)
+   if(this != &c)
    {
 
         delete pos;
-        this->pos = new Pos;
-        this->pos->x  = a.pos->x;
-        this->pos->y  = a.pos->y;
-        this->symbol = a.symbol;
+        pos = new Pos;
+        pos->x  = c.pos->x;
+        pos->y  = c.pos->y;
+        symbol = c.symbol;
    }
 
     
@@ -53,11 +53,11 @@ objPos& objPos::operator=(const objPos &a){
     return *this;
 }
 
-void objPos::setObjPos(objPos o)
+void objPos::setObjPos(objPos p)
 { // copies the x, y and symbol from another objPos
-    pos->x = o.pos->x;
-    pos->y = o.pos->y;
-    symbol = o.symbol;
+    pos->x = p.pos->x;
+    pos->y = p.pos->y;
+    symbol = p.symbol;
 }
 
 void objPos::setObjPos(int xPos, int yPos, char sym)
