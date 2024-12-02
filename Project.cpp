@@ -38,13 +38,10 @@ Player* snakeHead = new Player(gameMechInstance);
 Food* snakeFood = nullptr;
 Food* new_snakeFood = nullptr;
 
-int wipe_food;
-
 int main(void)
 {
     Initialize();
-    while(gameMechInstance->getExitFlagStatus() == false && gameMechInstance->getLoseFlagStatus() == false)  
-    {
+    while(gameMechInstance->getExitFlagStatus() == false && gameMechInstance->getLoseFlagStatus() == false && gameMechInstance->getWinFlagStatus() == true){
         GetInput();
         if (RunLogic() != 1);{
         DrawScreen();
@@ -53,9 +50,7 @@ int main(void)
     }
 
     CleanUp();
-
 }
-
 
 void Initialize(void)
 {
@@ -65,12 +60,10 @@ void Initialize(void)
     snakeFood->generateFood(snakeHead->getPlayerPos());
 
     exitFlag = false;
-
 }
 
 void GetInput(void)
 {
-
     if (MacUILib_hasChar()){
 
         gameMechInstance->setInput(MacUILib_getChar());
@@ -80,7 +73,7 @@ void GetInput(void)
 int RunLogic(void)
 {
     if (gameMechInstance->getInput()== 27){
-        gameMechInstance->setExitTrue();
+        gameMechInstance->setExitFlag();
     }
     snakeHead->updatePlayerDir();
     if (1==snakeHead->movePlayer(snakeFood)){
@@ -117,7 +110,6 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
                     }
                 }
             }
-
             if (printed!=1){
                 MacUILib_printf("%c", gameBoard[i][j]);
                  
@@ -125,10 +117,8 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
     }
     MacUILib_printf("\n");
   }
-
 MacUILib_printf("\nEating S = +3 score\nEating s = +3 snake length\n");
-MacUILib_printf("Score: %d", gameMechInstance->getScore());
-    
+MacUILib_printf("Score: %d", gameMechInstance->getScore());   
 }
 
 void LoopDelay(void)
@@ -141,14 +131,12 @@ void CleanUp(void)
 {
     MacUILib_clearScreen();    
     
-    
-    if(gameMechInstance->getLoseFlagStatus() == true ){
-
-        MacUILib_printf ("You Lost, Better Luck Next Time!"); 
-    }
-    else  {
-        MacUILib_printf("See You Next Time!"); 
-    }
+    if(gameMechInstance->getLoseFlagStatus() == true)
+        MacUILib_printf ("Unluckly, you lost.. Try again!"); 
+    if(gameMechInstance->getWinFlagStatus() == true)
+        MacUILib_printf("Congratulations, you win!!");
+    else
+        MacUILib_printf("Come back again!");
     delete gameMechInstance;
     delete snakeHead;
     delete snakeFood;
