@@ -149,3 +149,11 @@ void Player::increasePlayerLength(int num){
             playerPosList->insertTail(objPos(newTail.pos->x,newTail.pos->y,'*')); 
         }
 }
+
+void Player::victoryCheck()
+{
+    if(playerPosList->getSize() >= ARRAY_MAX_CAP)
+    {
+        mainGameMechsRef->setWinFlag();
+    }
+}

@@ -72,6 +72,7 @@ void objPosArrayList::insertHead(objPos thisPos)
     if(listSize == arrayCapacity)
     {
         cout << "Array list is full" << endl;
+        return;
     }
 
     for(int i = listSize; i > 0; i--)
@@ -85,9 +86,11 @@ void objPosArrayList::insertHead(objPos thisPos)
 
 void objPosArrayList::insertTail(objPos thisPos)
 {
-    if(listSize == arrayCapacity)
+    if(listSize >= arrayCapacity)
     {
-        cout << "Array list is full" << endl;
+        cout << "Congratulations You Win!" << endl;
+        
+        return;
     }
 
     aList[listSize] = thisPos;
@@ -105,10 +108,10 @@ void objPosArrayList::removeHead()
         listSize--;
    }
    
-   else
-   {    
-        cout << "No head to delete" << endl;
-   }
+//    else
+//    {    
+//         cout << "No head to delete" << endl;
+//    }
 }  
 
 void objPosArrayList::removeTail()
@@ -118,10 +121,10 @@ void objPosArrayList::removeTail()
        listSize--;
     }
 
-    else
-    {    
-        cout << "No tail to delete" << endl;
-    }
+    // else
+    // {    
+    //     cout << "No tail to delete" << endl;
+    // }
 }
 
 objPos objPosArrayList::getHeadElement() const
@@ -160,3 +163,4 @@ void objPosArrayList::insertElement(int index, objPos food) const
         cout << "Tried to get element of out of acccess index" << endl;
     }
 }
+
