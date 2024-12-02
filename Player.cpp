@@ -11,23 +11,24 @@ Player::Player(GameMechs* thisGMRef)
     
 }
 
-Player::Dir Player::getFSMState(){
+Player::Dir Player::getFSMState(){ // return the current dir of snake
     return myDir; 
 }
 
-Player::~Player()
+Player::~Player() // delete player position array list located on the heap
 {
     delete playerPosList; 
 }
 
-objPosArrayList* Player::getPlayerPos() const
+objPosArrayList* Player::getPlayerPos() const // return player position array list
 {
     return playerPosList; 
 }
 
-void Player::updatePlayerDir()
+void Player::updatePlayerDir() // change the direction of the snake according to the input from user
 {
        char input = mainGameMechsRef->getInput();
+       // checking the input entered, and making sure the constraint is met, and then changing dir according
         if ((input == 'w' || input == 'W') && myDir != DOWN) {
             myDir = UP;
         }
@@ -44,62 +45,59 @@ void Player::updatePlayerDir()
 
 int Player::movePlayer(Food *snakeFood)
 {
-    objPos nextHead = playerPosList->getHeadElement(); 
+    objPos updateHeadPos = playerPosList->getHeadElement(); 
 
-    switch (myDir) {
+    switch (myDir) { // change player position based on curr direction 
     case DOWN:
-        nextHead.pos->y++;
-        if (nextHead.pos->y == mainGameMechsRef->getBoardSizeY()- 1 ){
-            nextHead.pos->y = 1;
+        updateHeadPos.pos->y++;
+        if (updateHeadPos.pos->y == mainGameMechsRef->getBoardSizeY()- 1 ){ // wrap around logic for top
+            updateHeadPos.pos->y = 1;
         }
         break;
 
     case UP:
-        nextHead.pos->y--;
-        if (nextHead.pos->y == 0) {
-            nextHead.pos->y = mainGameMechsRef->getBoardSizeY()-2;
+        updateHeadPos.pos->y--;
+        if (updateHeadPos.pos->y == 0) { // wrap around logic for bottom
+            updateHeadPos.pos->y = mainGameMechsRef->getBoardSizeY()-2;
         }
         break;
 
     case RIGHT:
-        nextHead.pos->x++;
-        if (nextHead.pos->x == mainGameMechsRef->getBoardSizeX()-1) {
-            nextHead.pos->x = 1;
+        updateHeadPos.pos->x++;
+        if (updateHeadPos.pos->x == mainGameMechsRef->getBoardSizeX()-1) {// wrap around logic for right side
+            updateHeadPos.pos->x = 1; 
         }
         break;
 
     case LEFT:
-        nextHead.pos->x--;
-        if (nextHead.pos->x== 0) {
-            nextHead.pos->x = mainGameMechsRef->getBoardSizeX()-2;
+        updateHeadPos.pos->x--;
+        if (updateHeadPos.pos->x== 0) { // wrap around logic for left side
+            updateHeadPos.pos->x = mainGameMechsRef->getBoardSizeX()-2;
         }
         break;
     case STOP:
         break; 
     }
 
-    if (checkSelfCollision()){
+    if (checkSelfCollision()){ // check to see if the snake has collided with itself
         mainGameMechsRef->setLoseFlag();
         return 1; 
     }
-    
-    if(checkFoodConsumption(snakeFood) == 1)
+    // SPECIAL FOOD LOGIC 
+    if(checkFoodConsumption(snakeFood) == 2) // if snake eats "S" food increase length by 3
+    {
+        increasePlayerLength(3);
+        snakeFood->generateFood(playerPosList);
+        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
+    }
+    if(checkFoodConsumption(snakeFood) == 1) // if snake eats "s" food increase length by 3
     {
         increasePlayerLength(1);
         snakeFood->generateFood(playerPosList);
         mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(3));
 
     }
-
-    if(checkFoodConsumption(snakeFood) == 2)
-    {
-        increasePlayerLength(3);
-        snakeFood->generateFood(playerPosList);
-        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
-        
-    }
-
-    if((checkFoodConsumption(snakeFood) == -1))
+    if((checkFoodConsumption(snakeFood) == -1)) // if snake eats "@" food increase length by 3
     {
        increasePlayerLength(1);
        snakeFood->generateFood(playerPosList);
@@ -107,18 +105,20 @@ int Player::movePlayer(Food *snakeFood)
        
     }
 
-    victoryCheck();
-    playerPosList->insertHead(nextHead); 
+    // allows snake to keep its size
+    playerPosList->insertHead(updateHeadPos); 
     playerPosList->removeTail();
     return 0;
 
    
 }
 
-int Player::checkFoodConsumption(Food *snakeFood){
+int Player::checkFoodConsumption(Food *snakeFood){ // checker of snake eating food
     for (int i =0; i<snakeFood->bucketSize(); i++){
         objPos currentFood = snakeFood->grabFoodItem(i);
+        // if the location of the snake matches the location of food, value is returned for type of food
         if (playerPosList->getHeadElement().pos->x == currentFood.pos->x  && playerPosList->getHeadElement().pos->y == currentFood.pos->y){
+            // checks the type of food eaten, and returns a specific value, used later for the snake to grow
             if (currentFood.symbol == 'S'){
                 return 1; 
             }
@@ -136,7 +136,7 @@ int Player::checkFoodConsumption(Food *snakeFood){
 bool Player::checkSelfCollision(){
     objPos playerHead = playerPosList->getHeadElement();
     for (int i =1; i<playerPosList->getSize(); i++)
-    {
+    { // checking if the snake head is at the same location of a snake body part
         objPos currentBodyPart = playerPosList->getElement(i);
         if (playerHead.pos->x == currentBodyPart.pos->x && playerHead.pos->y==currentBodyPart.pos->y)
         {
@@ -146,7 +146,7 @@ bool Player::checkSelfCollision(){
     return false; 
 }
 
-void Player::increasePlayerLength(int num){
+void Player::increasePlayerLength(int num){ // increases the length of the player at the tail
     objPos newTail = playerPosList->getTailElement();
         for(int i = 0; i < num; i++)
         {
@@ -154,10 +154,10 @@ void Player::increasePlayerLength(int num){
         }
 }
 
-void Player::victoryCheck()
+void Player::victoryCheck() // checking if the lenght of the snake is the size of the array
 {
     if(playerPosList->getSize() >= ARRAY_MAX_CAP)
     {
-        mainGameMechsRef->setWinFlag();
+        mainGameMechsRef->setWinFlag(); // set win condition
     }
 }
