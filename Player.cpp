@@ -88,6 +88,7 @@ int Player::movePlayer(Food *snakeFood)
         increasePlayerLength(1);
         snakeFood->generateFood(playerPosList);
         mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(3));
+
     }
 
     if(checkFoodConsumption(snakeFood) == 2)
@@ -95,6 +96,7 @@ int Player::movePlayer(Food *snakeFood)
         increasePlayerLength(3);
         snakeFood->generateFood(playerPosList);
         mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
+        
     }
 
     if((checkFoodConsumption(snakeFood) == -1))
@@ -102,8 +104,10 @@ int Player::movePlayer(Food *snakeFood)
        increasePlayerLength(1);
        snakeFood->generateFood(playerPosList);
        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
+       
     }
 
+    victoryCheck();
     playerPosList->insertHead(nextHead); 
     playerPosList->removeTail();
     return 0;

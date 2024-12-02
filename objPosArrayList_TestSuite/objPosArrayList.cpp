@@ -89,7 +89,7 @@ void objPosArrayList::insertTail(objPos thisPos)
     if(listSize >= arrayCapacity)
     {
         cout << "Congratulations You Win!" << endl;
-        
+
         return;
     }
 
@@ -151,6 +151,7 @@ objPos objPosArrayList::getElement(int index) const
     }
 }
 
+//Function to replace/insert an element into a certain index
 void objPosArrayList::insertElement(int index, objPos food) const
 {
     if(index >= 0 && index < listSize)

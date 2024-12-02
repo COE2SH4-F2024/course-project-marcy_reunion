@@ -2,16 +2,12 @@
 
 using namespace std;
 
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
-// Paste your Tested implementation here.
 #include <iostream>
 using namespace std;
 
-// Check lecture contents on general purpose array list construction, 
-// and modify it to support objPos array list construction.
+//From lecture
 
-objPosArrayList::objPosArrayList()      //Constructor
+objPosArrayList::objPosArrayList()//Constructor Method
 {
     arrayCapacity = ARRAY_MAX_CAP;
     listSize = 0;
@@ -22,7 +18,7 @@ objPosArrayList::objPosArrayList()      //Constructor
     }
 }
 
-objPosArrayList::objPosArrayList(int foodListSize)      //Constructor
+objPosArrayList::objPosArrayList(int foodListSize)//Constructor Method
 {
     arrayCapacity = ARRAY_MAX_CAP;
     listSize = foodListSize;
@@ -33,12 +29,12 @@ objPosArrayList::objPosArrayList(int foodListSize)      //Constructor
     }
 }
 
-objPosArrayList::~objPosArrayList()     //Destructor 
+objPosArrayList::~objPosArrayList()//Destructor Method
 {
     delete[] aList;
 }
 
-objPosArrayList::objPosArrayList(objPosArrayList const &arr)        //Copy constructor
+objPosArrayList::objPosArrayList(objPosArrayList const &arr)//Copy constructor Method
 {
     listSize = arr.listSize;
     arrayCapacity = arr.arrayCapacity;
@@ -49,7 +45,7 @@ objPosArrayList::objPosArrayList(objPosArrayList const &arr)        //Copy const
     }
 }
 
-objPosArrayList& objPosArrayList::operator =(objPosArrayList const &arr)
+objPosArrayList& objPosArrayList::operator =(objPosArrayList const &arr)//Copy Assignment Operator Method
 {
     if(this != &arr)
     {
@@ -64,12 +60,12 @@ objPosArrayList& objPosArrayList::operator =(objPosArrayList const &arr)
     return *this;
 }
 
-int objPosArrayList::getSize() const
+int objPosArrayList::getSize() const //List Size Getter
 {
     return listSize;
 }
 
-void objPosArrayList::insertHead(objPos thisPos)
+void objPosArrayList::insertHead(objPos thisPos) // Inserting Head Element
 {
     if(listSize == arrayCapacity)
     {
@@ -85,7 +81,7 @@ void objPosArrayList::insertHead(objPos thisPos)
     listSize++;
 }
 
-void objPosArrayList::insertTail(objPos thisPos)
+void objPosArrayList::insertTail(objPos thisPos) //Inserting Tail Element
 {
     if(listSize == arrayCapacity)
     {
@@ -96,10 +92,11 @@ void objPosArrayList::insertTail(objPos thisPos)
     listSize++;
 }
 
-void objPosArrayList::removeHead()
+void objPosArrayList::removeHead() //Removing Head
 {
    if(listSize != arrayCapacity)
    {
+        //Shifting elements 1 index left
         for(int i = 0; i < listSize - 1; i++)
         {
             aList[i] = aList[i + 1];
@@ -113,7 +110,7 @@ void objPosArrayList::removeHead()
    }
 }  
 
-void objPosArrayList::removeTail()
+void objPosArrayList::removeTail() //Removing Tail Element
 {
     if(listSize != 0)
     {
@@ -126,17 +123,17 @@ void objPosArrayList::removeTail()
     }
 }
 
-objPos objPosArrayList::getHeadElement() const
+objPos objPosArrayList::getHeadElement() const //Head element getter
 {
     return aList[0];
 }
 
-objPos objPosArrayList::getTailElement() const
+objPos objPosArrayList::getTailElement() const //Tail Element Getter
 {
     return aList[listSize - 1];
 }
 
-objPos objPosArrayList::getElement(int index) const
+objPos objPosArrayList::getElement(int index) const //Snake Element Getter
 {
     if(index >= 0 && index < listSize)
     {
@@ -150,10 +147,13 @@ objPos objPosArrayList::getElement(int index) const
     }
 }
 
-void objPosArrayList::insertElement(int index, objPos food) const
+// Replace/Insert an element at a specific index
+void objPosArrayList::insertElement(int index, objPos food) const 
 {
+    //Shift elements from index to end one right
     if(index >= 0 && index < listSize)
     {
+        
        aList[index] = food ; 
     }
 

@@ -3,18 +3,18 @@
 #include <time.h>
 using namespace std;
 
-Food::Food()     //Constructor
+Food::Food() //Constructor Method
 {
    foodBucket = new objPosArrayList(5); 
 }
 
-Food::~Food()    //Destructor
+Food::~Food()//Destructor Method
 {  
     delete foodBucket;
     delete foodPos.pos;
 }
 
-Food::Food(Food const &f)     //Copy Constructor
+Food::Food(Food const &f)//Copy Constructor Method
 {   
     foodPos.pos = new Pos;
     foodPos.pos->x = f.foodPos.pos->x;
@@ -22,7 +22,7 @@ Food::Food(Food const &f)     //Copy Constructor
     foodPos.symbol = f.foodPos.symbol;
 }
 
-Food& Food::operator=(Food const &f)     //Copy Assignment Operator
+Food& Food::operator=(Food const &f)//Copy Assignment Operator Method
 {
     if(this != &f)
     {
@@ -35,59 +35,68 @@ Food& Food::operator=(Food const &f)     //Copy Assignment Operator
     return *this;
 }
 
-void Food::generateFood(objPosArrayList* blockOff)
+void Food::generateFood(objPosArrayList* blockOff) //Food Generation Algorithm
 {
     int i, RandNum_x, RandNum_y;
     srand(time(NULL));
-
+    
     for(i=0; i<5; i++)
     {
+        //Assigning random position to the foodPos object
         RandNum_x = (rand()%18)+1;
         RandNum_y = (rand()%8)+1;
 
         foodPos.pos->x = RandNum_x;
         foodPos.pos->y = RandNum_y;
 
+        //Assigning a symbol to the foodPos object (ensuring 2 will be the special symbols)
         if(i==0) foodPos.symbol = 'S';
         else if(i==1) foodPos.symbol = 's';
         else foodPos.symbol = '@';
 
+        //if food is generated in snakebody, restart the loop with the same i value
         if(snakeBodyCheck(blockOff, RandNum_x, RandNum_y))
         {
             i--;
             continue;
         }
+        //if food generated is a duplicate, restart loop with same i value
         if(foodInBucket())
         {
             i--;
             continue;
         }
 
+        //insert the generated food data into the bucket
         foodBucket->insertElement(i, foodPos);
     }
 
     return; 
 }
 
-objPos Food::getFoodPos() const
+objPos Food::getFoodPos() const //Food position getter
 {
     return foodPos;
 }
 
-objPos Food::grabFoodItem(int index){
+objPos Food::grabFoodItem(int index) //Food bucket item getter
+{
     return foodBucket->getElement(index); 
 }
 
-int Food::bucketSize(){
+int Food::bucketSize() //Food bucket size getter
+{
 
     return foodBucket->getSize(); 
 }
 
-bool Food::foodInBucket(){
-
+//Function to check whether the generated food is a duplicate
+bool Food::foodInBucket() 
+{
     int i=0;
     for (i = 0; i<foodBucket->getSize(); i++)
     {
+         //Creating a temporary object for the food in bucket we're looking at
         objPos currentFood = foodBucket->getElement(i).getObjPos();
         if (foodPos.pos->x == currentFood.pos->x && foodPos.pos->y == currentFood.pos->y)
         {
@@ -97,7 +106,8 @@ bool Food::foodInBucket(){
     return false;
 }
 
-bool Food::snakeBodyCheck(objPosArrayList* blockOff, int x, int y)
+//Function to check whether the generated food is in the snake body
+bool Food::snakeBodyCheck(objPosArrayList* blockOff, int x, int y) 
 {
     for (int i =0; i<blockOff->getSize(); i++ )
     {
