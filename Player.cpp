@@ -95,12 +95,14 @@ int Player::movePlayer(Food *snakeFood)
         increasePlayerLength(1);
         snakeFood->generateFood(playerPosList);
         mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(3));
+
     }
     if((checkFoodConsumption(snakeFood) == -1)) // if snake eats "@" food increase length by 3
     {
        increasePlayerLength(1);
        snakeFood->generateFood(playerPosList);
        mainGameMechsRef->setScore(mainGameMechsRef->incrementScore(1));
+       
     }
 
     // allows snake to keep its size
