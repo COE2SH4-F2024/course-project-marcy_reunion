@@ -18,7 +18,6 @@ class GameMechs
 {
     private:
         char input;
-        char prevInput; 
         bool exitFlag;
         bool loseFlag;
         bool winFlag;
