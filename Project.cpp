@@ -1,10 +1,11 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-#include "Player.h"
 #include "GameMechs.h"
 #include "Food.h"
 #include <time.h>
+#include "Player.h"
+
 
 using namespace std;
 
@@ -31,24 +32,21 @@ string gameBoard[10]={
     {"$                  $"},
     {"$$$$$$$$$$$$$$$$$$$$"}  
 };
-GameMechs* gameMechInstance = new GameMechs(20,10);
-
-Player* snakeHead = new Player(gameMechInstance); 
+GameMechs* mechInst = new GameMechs(20,10);
+Player* snakeHead = new Player(mechInst); 
 
 Food* snakeFood = nullptr;
-Food* new_snakeFood = nullptr;
 
 int main(void)
 {
     Initialize();
-    while(gameMechInstance->getExitFlagStatus() == false && gameMechInstance->getLoseFlagStatus() == false && gameMechInstance->getWinFlagStatus() == true){
+    while((mechInst->getExitFlagStatus() == false) && (mechInst->getLoseFlagStatus() == false) && (mechInst->getWinFlagStatus() == false)){
         GetInput();
         if (RunLogic() != 1);{
         DrawScreen();
         }
         LoopDelay();
     }
-
     CleanUp();
 }
 
@@ -65,34 +63,33 @@ void Initialize(void)
 void GetInput(void)
 {
     if (MacUILib_hasChar()){
-
-        gameMechInstance->setInput(MacUILib_getChar());
+        mechInst->setInput(MacUILib_getChar());
     }
 }
 
 int RunLogic(void)
 {
-    if (gameMechInstance->getInput()== 27){
-        gameMechInstance->setExitFlag();
+    if (mechInst->getInput()== 27){
+        mechInst->setExitFlag();
     }
     snakeHead->updatePlayerDir();
     if (1==snakeHead->movePlayer(snakeFood)){
         return 1; 
     }
-    gameMechInstance->clearInput(); 
+    mechInst->clearInput(); 
 }
 
 void DrawScreen(void)
 {
     MacUILib_clearScreen();
-    objPosArrayList* myCharacter = snakeHead->getPlayerPos();
+    objPosArrayList* theCharac = snakeHead->getPlayerPos();
 
-for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
-        for (int j=0; j<gameMechInstance->getBoardSizeX(); j++){
+for (int i =0; i<mechInst->getBoardSizeY();i++){
+        for (int j=0; j<mechInst->getBoardSizeX(); j++){
             int printed =0; 
 
-            for (int  k = 0; k<myCharacter->getSize(); k++){
-            objPos snake = myCharacter->getElement(k);
+            for (int  k = 0; k<theCharac->getSize(); k++){
+            objPos snake = theCharac->getElement(k);
             if (snake.pos->x== j && snake.pos->y == i){
                 MacUILib_printf("%c", snake.getSymbol());
                 printed = 1; 
@@ -100,12 +97,11 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
             }
              if (printed!=1){
                 for (int foodLoc =0; foodLoc < snakeFood->bucketSize(); foodLoc++){
+                    objPos foodProp = snakeFood->grabFoodItem(foodLoc);
 
-                    objPos foodGeneration = snakeFood->grabFoodItem(foodLoc);
-
-                    if(foodGeneration.pos->x == j && foodGeneration.pos->y == i)
+                    if(foodProp.pos->x == j && foodProp.pos->y == i)
                     {   printed =1; 
-                        MacUILib_printf("%c", foodGeneration.getSymbol());
+                        MacUILib_printf("%c", foodProp.getSymbol());
                         break; 
                     }
                 }
@@ -118,7 +114,7 @@ for (int i =0; i<gameMechInstance->getBoardSizeY();i++){
     MacUILib_printf("\n");
   }
 MacUILib_printf("\nEating S = +3 score\nEating s = +3 snake length\n");
-MacUILib_printf("Score: %d", gameMechInstance->getScore());   
+MacUILib_printf("Score: %d", mechInst->getScore());   
 }
 
 void LoopDelay(void)
@@ -126,19 +122,18 @@ void LoopDelay(void)
     MacUILib_Delay(DELAY_CONST); // 0.1s delay
 }
 
-
 void CleanUp(void)
 {
     MacUILib_clearScreen();    
     
-    if(gameMechInstance->getLoseFlagStatus() == true)
+    if(mechInst->getLoseFlagStatus() == true)
         MacUILib_printf ("Unluckly, you lost.. Try again!"); 
-    if(gameMechInstance->getWinFlagStatus() == true)
+    else if(mechInst->getWinFlagStatus() == true)
         MacUILib_printf("Congratulations, you win!!");
     else
         MacUILib_printf("Come back again!");
-    delete gameMechInstance;
-    delete snakeHead;
     delete snakeFood;
+    delete mechInst;
+    delete snakeHead;
 }
  
