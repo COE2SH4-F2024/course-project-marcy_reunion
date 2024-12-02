@@ -31,6 +31,8 @@ objPos::objPos(const objPos &a){
     pos->x = a.pos->x;
     pos->y = a.pos->y;
     symbol = a.symbol;
+
+
 }
 
 //Copy Assignmnet Constructor
@@ -38,11 +40,15 @@ objPos& objPos::operator=(const objPos &a){
 
    if(this != &a)
    {
+
+        delete pos;
         this->pos = new Pos;
         this->pos->x  = a.pos->x;
         this->pos->y  = a.pos->y;
         this->symbol = a.symbol;
    }
+
+    
 
     return *this;
 }

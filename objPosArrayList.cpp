@@ -32,6 +32,7 @@ objPosArrayList::objPosArrayList(int foodListSize)//Constructor Method
 objPosArrayList::~objPosArrayList()//Destructor Method
 {
     delete[] aList;
+    
 }
 
 objPosArrayList::objPosArrayList(objPosArrayList const &arr)//Copy constructor Method
@@ -49,6 +50,7 @@ objPosArrayList& objPosArrayList::operator =(objPosArrayList const &arr)//Copy A
 {
     if(this != &arr)
     {
+        delete[] aList;
         listSize = arr.listSize;
         arrayCapacity = arr.arrayCapacity;
         for(int i = 0; i < listSize - 1; i++)
