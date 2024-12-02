@@ -23,8 +23,7 @@ class Food
         objPos grabFoodItem(int index);
 
         int bucketSize();
-        bool foodInBucket(); 
-        bool snakeBodyCheck(objPosArrayList* blockOff, int x, int y); 
+        bool spotTaken(objPosArrayList* blockOff, int x, int y); 
 
 };
 

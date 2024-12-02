@@ -61,18 +61,12 @@ void Food::generateFood(objPosArrayList* blockOff) //Food Generation Algorithm
         else foodPos.symbol = '@';
 
         //if food is generated in snakebody, restart the loop with the same i value
-        if(snakeBodyCheck(blockOff, RandNum_x, RandNum_y))
+        if(spotTaken(blockOff, RandNum_x, RandNum_y))
         {
             i--;
             continue;
         }
-        //if food generated is a duplicate, restart loop with same i value
-        if(foodInBucket())
-        {
-            i--;
-            continue;
-        }
-
+    
         //insert the generated food data into the bucket
         foodBucket->insertElement(i, foodPos);
     }
@@ -96,32 +90,33 @@ int Food::bucketSize() //Food bucket size getter
     return foodBucket->getSize(); 
 }
 
-//Function to check whether the generated food is a duplicate
-bool Food::foodInBucket() 
-{
-    int i=0;
+//Function to check whether the food is being generated in already taken spot (snake or other food)
+bool Food::spotTaken(objPosArrayList* blockOff, int x, int y) 
+{   
+
+    int i;
+
+    //Checking if food is generated in snake body
+    for (i = 0; i<blockOff->getSize(); i++)
+    {
+        if(blockOff->getElement(i).pos->x == x && blockOff->getElement(i).pos->y == y)
+        {
+            return true; 
+        }
+
+    }
+
+    //Checking if food is generated in another food spot
     for (i = 0; i<foodBucket->getSize(); i++)
     {
-         //Creating a temporary object for the food in bucket we're looking at
+        //Creating a temporary object for the food in bucket we're looking at
         objPos currentFood = foodBucket->getElement(i).getObjPos();
         if (foodPos.pos->x == currentFood.pos->x && foodPos.pos->y == currentFood.pos->y)
         {
             return true; 
         }
     }
-    return false;
-}
 
-//Function to check whether the generated food is in the snake body
-bool Food::snakeBodyCheck(objPosArrayList* blockOff, int x, int y) 
-{
-    for (int i =0; i<blockOff->getSize(); i++ )
-    {
-         if(blockOff->getElement(i).pos->x == x && blockOff->getElement(i).pos->y == y)
-         {
-            return true; 
-         }
-    }
     return false;
 }
 
