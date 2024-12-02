@@ -21,6 +21,7 @@ class GameMechs
         char prevInput; 
         bool exitFlag;
         bool loseFlag;
+        bool winFlag;
         int score;
 
         int boardSizeX;
@@ -34,9 +35,11 @@ class GameMechs
         ~GameMechs(); // is this one needed at all? Why or why not?
         
         bool getExitFlagStatus() const; 
-        void setExitTrue();
+        void setExitFlag();
         bool getLoseFlagStatus() const;
         void setLoseFlag();
+        bool getWinFlagStatus() const;
+        void setWinFlag();
 
         char getInput() const;
         void setInput(char this_input);

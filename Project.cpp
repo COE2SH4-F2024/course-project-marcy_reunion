@@ -170,7 +170,7 @@ void CleanUp(void)
     MacUILib_clearScreen();    
     
     
-       if(gameMechInstance->getLoseFlagStatus() == true ){
+    if(gameMechInstance->getLoseFlagStatus() == true ){
 
         MacUILib_printf ("You Lost, Better Luck Next Time!"); 
     }

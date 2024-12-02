@@ -4,7 +4,8 @@ GameMechs::GameMechs()
 {
  score =0;
  exitFlag = false; 
- loseFlag= false; 
+ loseFlag= false;
+ winFlag = false;
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -13,7 +14,8 @@ GameMechs::GameMechs(int boardX, int boardY)
     boardSizeY = boardY; 
     score =0;
     exitFlag = false; 
-    loseFlag=false; 
+    loseFlag = false;
+    winFlag = false;
 }
 
 // do you need a destructor?
@@ -31,6 +33,11 @@ bool GameMechs::getLoseFlagStatus() const
 {
 
     return loseFlag; 
+}
+
+bool GameMechs::getWinFlagStatus() const
+{
+    return winFlag; 
 }
     
 
@@ -65,7 +72,7 @@ int GameMechs::getBoardSizeY() const
 }
 
 
-void GameMechs::setExitTrue()
+void GameMechs::setExitFlag()
 {
     exitFlag = true; 
 
@@ -74,6 +81,11 @@ void GameMechs::setExitTrue()
 void GameMechs::setLoseFlag()
 {
     loseFlag = true; 
+}
+
+void GameMechs::setWinFlag()
+{
+    winFlag = true; 
 }
 
 void GameMechs::setInput(char this_input)
@@ -96,3 +108,4 @@ void GameMechs::setScore(int val){
     score=val; 
 }
 // More methods should be added here
+
