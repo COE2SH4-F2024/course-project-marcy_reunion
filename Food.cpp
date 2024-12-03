@@ -41,8 +41,8 @@ void Food::generateFood(objPosArrayList* blockOff, int x, int y) //Food Generati
     srand(time(NULL));
 
     //If the snake is taking up more than 195 squares, there won't be 5 places to generate food--adjusting accordingly
-    if(blockOff->getSize()> 195){ 
-        foods = 200 - blockOff->getSize(); 
+    if(blockOff->getSize()> ((x-2)*(y-2))-5){ 
+        foods = (x-2)*(y-2) - blockOff->getSize(); 
     }
 
     //Typically, foods=5, generate 5 food
